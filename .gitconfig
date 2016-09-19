@@ -1,0 +1,8 @@
+[user]
+	name = Hywel Andrews
+	email = hywel.andrews@agoda.com
+[core]
+	excludesfile = ~/.gitexcludes
+	editor = nano
+[alias]
+	change-log = log --pretty=format:'%C(yellow)%h %Cred%ad %Cgreen%d %Creset%s' --date=relative
