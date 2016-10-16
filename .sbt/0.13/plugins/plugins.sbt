@@ -1,0 +1,1 @@
+addSbtPlugin("de.heikoseeberger" % "sbt-fresh" % "1.0.0")
