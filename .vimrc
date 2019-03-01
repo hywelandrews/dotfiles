@@ -37,19 +37,28 @@ Plugin 'roxma/nvim-yarp'
 " Asynchronous Lint Engine
 Plugin 'w0rp/ale'
 
+" Markdown for Vim
+Plugin 'gabrielelana/vim-markdown'
+
+" UML Diagrams in VIM (Architect alert!)
+Plugin 'scrooloose/vim-slumlord'
+
+" PlantUML syntax (for the above plugin)
+Plugin 'aklt/plantuml-syntax'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
+
 syntax on
 
-colorscheme gruvbox
+set backspace=indent,eol,start
 
 set background=dark
 
-set termguicolors
-
 set encoding=utf-8
+
+color dracula
 
 " Enable completion where available.
 let g:ale_completion_enabled = 1
