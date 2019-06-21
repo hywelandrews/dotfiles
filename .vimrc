@@ -46,6 +46,9 @@ Plugin 'scrooloose/vim-slumlord'
 " PlantUML syntax (for the above plugin)
 Plugin 'aklt/plantuml-syntax'
 
+" Extra syntax highlighting, useful for C programming at least
+Plugin 'justinmk/vim-syntax-extra'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
