@@ -19,32 +19,17 @@ Plugin 'flazz/vim-colorschemes'
 "dracula theme
 Plugin 'dracula/vim'
 
-" GruvBox theme
-Plugin 'morhetz/gruvbox'
-
 " tcomment
 Plugin 'tomtom/tcomment_vim'
 
 " A tree explorer plugin for vim
 Plugin 'scrooloose/nerdtree'
 
-" neovim rpc client working on vim8
-Plugin 'roxma/vim-hug-neovim-rpc'
-
-" Yet Another Remote Plugin Framework for Neovim *Vim8
-Plugin 'roxma/nvim-yarp'
-
 " Asynchronous Lint Engine
 Plugin 'w0rp/ale'
 
 " Markdown for Vim
 Plugin 'gabrielelana/vim-markdown'
-
-" UML Diagrams in VIM (Architect alert!)
-Plugin 'scrooloose/vim-slumlord'
-
-" PlantUML syntax (for the above plugin)
-Plugin 'aklt/plantuml-syntax'
 
 " Extra syntax highlighting, useful for C programming at least
 Plugin 'justinmk/vim-syntax-extra'
