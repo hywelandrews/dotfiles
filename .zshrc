@@ -2,8 +2,15 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/Hywel/.oh-my-zsh"
-
+# Set per OS I use
+#
+if [[ $(uname) == "Darwin" ]]; then # MAC OSX
+	export ZSH="/Users/Hywel/.oh-my-zsh"
+elif command -v freebsd-version > /dev/null; then # FreeBSD
+	export ZSH="/home/hywel/.oh-my-zsh"
+else
+	echo 'Unable to detect Operating System to apply correct ZSH config path'
+fi
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -41,7 +48,7 @@ ZSH_THEME="steeef"
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
 
-# Uncomment the following line to enable command auto-correction.
+# Uncomment the following line to eLnable command auto-correction.
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
@@ -73,7 +80,7 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-export JAVA_HOME=$(/usr/libexec/java_home)
+export JAVA_HOME=$(/usr/libexec/java_home -v 11)
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -97,3 +104,13 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+if [ -e ~/.secrets ]; then
+	source ~/.secrets
+fi
+
+if [ -e ~/.Playdate/config ]; then
+	export PLAYDATE_SDK_PATH=$(egrep '^\s*SDKRoot' ~/.Playdate/config | head -n 1 | cut -c9-)
+fi
+
+PATH="/usr/local/bin:$PATH"
+PATH="/opt/homebrew/bin:$PATH"
