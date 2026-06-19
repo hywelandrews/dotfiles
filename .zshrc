@@ -3,33 +3,26 @@
 
 # Path to your oh-my-zsh installation.
 # Set per OS I use
-#
+
 if [[ $(uname) == "Darwin" ]]; then # MAC OSX
-	export ZSH="/Users/Hywel/.oh-my-zsh"
-        # User configuration
-        export JAVA_HOME=$(/usr/libexec/java_home -v 17)
-        PATH="/opt/homebrew/bin:$PATH"
-elif command -v freebsd-version > /dev/null; then # FreeBSD
-	export ZSH="/home/hywel/.oh-my-zsh"
-        # Load powerline package from python
-        . /usr/local/lib/python3.9/site-packages/powerline/bindings/zsh/powerline.zsh
-        export JAVA_VENDOR=openjdk
-        export JAVA_HOME=/usr/local/openjdk17
-
-        # Install Ruby Gems to ~/gems
-        export GEM_HOME="$HOME/gems"
-
-        export PATH="$HOME/gems/bin:$PATH"
+	if [[ $(hostname) == "LK9LQ7VPCG" ]]; then # Work
+#		export ZSH="/Users/handrews/.oh-my-zsh"
+	else # Home
+#		export ZSH="/Users/Hywel/.oh-my-zsh"
+	fi
+elif command -v freebsd-version > /dev/null; then # FreeBSD All
+#	export ZSH="/home/hywel/.oh-my-zsh"
 else
 	echo 'Unable to detect Operating System to apply correct ZSH config path'
 fi
+
+export ZSH="$(pwd)/.oh-my-zsh"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="steeef"
-# auto complete 
-zstyle ':completion:*' menu select
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
@@ -61,7 +54,7 @@ zstyle ':completion:*' menu select
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
 
-# Uncomment the following line to enable command auto-correction.
+# Uncomment the following line to eLnable command auto-correction.
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
@@ -88,40 +81,35 @@ zstyle ':completion:*' menu select
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-        # Version Control
-        git
-        # Programming Languages & Tools
-        python
-        # Productivity Boosters
-        extract
-        z
-        history
-        command-not-found
-        vscode
-)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-
+# User configuration
+export JAVA_HOME=$(/usr/libexec/java_home -v 11)
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-export LANG=en_GB.UTF-8
+# export LANG=en_US.UTF-8
 
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
-# Development user configuration
-export JAVA_VERSION=17
-export BLOOP_JAVA_OPTS="-XX:+UseG1GC"
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-if [-e ~/.yaul.env ]
-        source ~/.yaul.env
-fi
-
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 if [ -e ~/.secrets ]; then
 	source ~/.secrets
 fi
@@ -130,12 +118,5 @@ if [ -e ~/.Playdate/config ]; then
 	export PLAYDATE_SDK_PATH=$(egrep '^\s*SDKRoot' ~/.Playdate/config | head -n 1 | cut -c9-)
 fi
 
-if [ -e ~/.config/sway ]; then
-        alias insomniac='pkill -STOP swayidle' # Prevent sway from putting the machine to sleep
-
-        if tty | grep -q '/dev/ttyv0'; then
-                sway -c ~/.config/sway/config
-        fi
-fi
-
 PATH="/usr/local/bin:$PATH"
+PATH="/opt/homebrew/bin:$PATH"
