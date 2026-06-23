@@ -12,8 +12,6 @@ if [[ $(uname) == "Darwin" ]]; then # MAC OSX
 	export ZSH="$(pwd)/.oh-my-zsh"
 	# User configuration
 	export JAVA_HOME=$(/usr/libexec/java_home -v 11)
-	PATH="/usr/local/bin:$PATH"
-	PATH="/opt/homebrew/bin:$PATH"
 elif command -v freebsd-version > /dev/null; then # FreeBSD All
 	export ZSH="/usr/local/share/ohmyzsh/"
 	# If you come from bash you might have to change your $PATH.
