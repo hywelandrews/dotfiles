@@ -1,27 +1,58 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# auto complete 
+zstyle ':completion:*' menu select
 
-# Path to your oh-my-zsh installation.
-# Set per OS I use
-
-if [[ $(uname) == "Darwin" ]]; then # MAC OSX
-	if [[ $(hostname) == "LK9LQ7VPCG" ]]; then # Work
-#		export ZSH="/Users/handrews/.oh-my-zsh"
-	else # Home
-#		export ZSH="/Users/Hywel/.oh-my-zsh"
-	fi
-elif command -v freebsd-version > /dev/null; then # FreeBSD All
-#	export ZSH="/home/hywel/.oh-my-zsh"
-else
-	echo 'Unable to detect Operating System to apply correct ZSH config path'
-fi
-
-export ZSH="$(pwd)/.oh-my-zsh"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="steeef"
+
+# Set per OS I use
+if [[ $(uname) == "Darwin" ]]; then # MAC OSX
+	export ZSH="$(pwd)/.oh-my-zsh"
+	# User configuration
+	export JAVA_HOME=$(/usr/libexec/java_home -v 11)
+	PATH="/usr/local/bin:$PATH"
+	PATH="/opt/homebrew/bin:$PATH"
+elif command -v freebsd-version > /dev/null; then # FreeBSD All
+	export ZSH="/usr/local/share/ohmyzsh/"
+	# If you come from bash you might have to change your $PATH.
+	# export PATH=$HOME/bin:/usr/local/bin:$PATH
+	export JAVA_VERSION=17
+	export JAVA_VENDOR=openjdk
+	export JAVA_HOME=/usr/local/openjdk17
+	export BLOOP_JAVA_OPTS="-XX:+UseG1GC"
+	# XDG variables are kind of standad now for desktop environments/many ports
+	export XDG_CONFIG_HOME="$HOME/.config"
+	export XDG_DATA_HOME="$HOME/.local/share"
+	export XDG_CACHE_HOME="$HOME/.cache"
+	# Set personal aliases, overriding those provided by oh-my-zsh libs,
+	# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+	# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+	# For a full list of active aliases, run `alias`.
+	#
+	# Example aliases
+	# alias zshconfig="mate ~/.zshrc"
+	# alias ohmyzsh="mate ~/.oh-my-zsh"
+	alias insomniac='pkill -STOP swayidle' # Prevent sway from putting the machine to sleep
+	# Install Ruby Gems to ~/gems
+	export GEM_HOME="$HOME/gems"
+	export PATH="$HOME/gems/bin:$PATH"
+else
+	echo 'Unable to detect Operating System to apply specific ZSH or environment settings'
+fi
+
+if [ -e ~/.yaul.env ]; then
+	source ~/.yaul.env
+fi
+
+if [ -e ~/.secrets ]; then
+	source ~/.secrets
+fi
+
+if [ -e ~/.Playdate/config ]; then
+	export PLAYDATE_SDK_PATH=$(egrep '^\s*SDKRoot' ~/.Playdate/config | head -n 1 | cut -c9-)
+fi
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -54,7 +85,7 @@ ZSH_THEME="steeef"
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
 
-# Uncomment the following line to eLnable command auto-correction.
+# Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
@@ -81,16 +112,32 @@ ZSH_THEME="steeef"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+	# Version Control
+	git
+	# Programming Languages & Tools
+	python
+	# Adds file compresion agnostic extract filename command
+	extract
+	# Allows jumping around by using z $REGEX_PREV_DIR$
+	z
+	# Adds h, hl, hs (history | grep), hsi (history | grep -i)
+	history
+	# I think this is only working on MACOSX right now?
+	command-not-found
+	# Adds vsc, vsca aliases for easy vscode interaction
+	vscode
+	# Syntax highlighting in my terminal shell.Because? why not?
+	# Need to probably setup oh-my-zsh plugin manger as it's 
+	# user not core
+	# zsh-syntax-highlighting
+)
 
 source $ZSH/oh-my-zsh.sh
-
-# User configuration
-export JAVA_HOME=$(/usr/libexec/java_home -v 11)
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -102,21 +149,9 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 11)
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-if [ -e ~/.secrets ]; then
-	source ~/.secrets
+if tty | grep -q '/dev/ttyv0'; then
+	sway -c ~/.config/sway/config
 fi
 
-if [ -e ~/.Playdate/config ]; then
-	export PLAYDATE_SDK_PATH=$(egrep '^\s*SDKRoot' ~/.Playdate/config | head -n 1 | cut -c9-)
-fi
-
-PATH="/usr/local/bin:$PATH"
-PATH="/opt/homebrew/bin:$PATH"
+# Set vim as the default editor
+export EDITOR=vim
