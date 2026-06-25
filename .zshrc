@@ -12,6 +12,13 @@ if [[ $(uname) == "Darwin" ]]; then # MAC OSX
 	export ZSH="$(pwd)/.oh-my-zsh"
 	# User configuration
 	export JAVA_HOME=$(/usr/libexec/java_home -v 11)
+	PATH="/usr/local/bin:$PATH"
+	PATH="/opt/homebrew/bin:$PATH"
+	export PATH="/opt/homebrew/opt/binutils/bin:$PATH"
+	# alias on both systems should be based on executable being available on path
+	alias video-capture-to-udp="ffmpeg -f avfoundation -framerate 30 -video_size 640x480 -pixel_format nv12 -i 0 -probesize 32 -analyzeduration 0 -vcodec libx264 -preset ultrafast -tune zerolatency -g 15 -bf 0 -flush_packets 1 -f mpegts udp://127.0.0.1:23000"
+	alias video-play-udp="ffplay -fflags +nobuffer -probesize 100000 udp://127.0.0.1:23000"
+
 elif command -v freebsd-version > /dev/null; then # FreeBSD All
 	export ZSH="/usr/local/share/ohmyzsh/"
 	# If you come from bash you might have to change your $PATH.
@@ -45,12 +52,6 @@ if [ -e ~/.Playdate/config ]; then
 	export PLAYDATE_SDK_PATH=$(egrep '^\s*SDKRoot' ~/.Playdate/config | head -n 1 | cut -c9-)
 fi
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -83,9 +84,6 @@ fi
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -112,7 +110,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
-if [ -e /usr/local/lib/python3.9/site-packages/powerline/bindings/zsh ]; then
+if [ -e "/usr/local/lib/python3.9/site-packages/powerline/bindings/zsh" ]; then
 	# Powerline extension
 	. /usr/local/lib/python3.9/site-packages/powerline/bindings/zsh/powerline.zsh
 fi
@@ -133,6 +131,3 @@ export LANG=en_US.UTF-8
 if tty | grep -q '/dev/ttyv0'; then
 	sway -c ~/.config/sway/config
 fi
-
-# Set vim as the default editor
-export EDITOR=vim
